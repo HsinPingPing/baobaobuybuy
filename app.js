@@ -279,13 +279,13 @@ function receivedPostback(event) {
 function baobao(recipientId, messageText, postback) {
     
     console.log(messageText);
-    var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
+    //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
+    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText);
     
     request.get(flaskBackend, function(error, response, body) {
         console.log(">>>>", body);
         var recommendations = JSON.parse(body);
-
-  var more = [
+        var more = [
     {
         title: "閃靈快手",
         subtitle: "派對桌遊",
