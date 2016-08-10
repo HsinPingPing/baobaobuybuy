@@ -282,37 +282,8 @@ function baobao(recipientId, messageText, postback) {
     var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
     
     request.get(flaskBackend, function(error, response, body) {
-        console.log(body);
-        // parse JSON string to object
-        // var recommendations = JSON.parse(body);
+        console.log(">>>>", body);
         var recommendations = JSON.parse(body);
-        //var more = body;
-    });
-
-  /*var recommendations = [
-    {
-        title: "馬尼拉",
-        subtitle: "Ghost Blitz",
-        image_url: "http://i.imgur.com/c2pD0C3.png",
-        buttons: [{
-          type: "postback",
-          title: "#馬尼拉",
-          payload: "#馬尼拉",
-        }]
-    },
-    {
-        title: "閃靈快手",
-        subtitle: "派對桌遊",
-        image_url: "http://i.imgur.com/uUGJW01.jpg",
-        buttons: [{
-          type: "postback",
-          title: "#閃靈快手",
-          payload: "#閃靈快手",
-        }]
-    }
-  ];
-  */
-    
 
   var more = [
     {
@@ -347,7 +318,8 @@ function baobao(recipientId, messageText, postback) {
   } else {
     response.message.attachment.payload.elements = recommendations;
   }
-  callSendAPI(response);
+      callSendAPI(response);
+    });
 }
 
 /*
