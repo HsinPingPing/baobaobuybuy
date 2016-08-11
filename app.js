@@ -283,19 +283,31 @@ function baobao(recipientId, messageText) {
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
-        var recommendations = JSON.parse(body);
-        if ( recommendations.length > 1){
-            ToCarousel(recipientId, response, recommendations);
+        if (typeof myVar != 'undefined'){
+            baobao_useless(recipientId, response);
         }else{
-            ToKG(recipientId, response, recommendations);
+            var recommendations = JSON.parse(body);
+            if ( recommendations.length > 1){
+                ToCarousel(recipientId, response, recommendations);
+            }else{
+                ToKG(recipientId, response, recommendations);
+            }
         }
     });
+}
+
+function baobao_useless(recipientId, response){
+    var response = {
+        recipient: { id: recipientId},
+        message: {"text": "寶寶沒用 寶寶不說"}
+    };
+    callSendAPI(response);
 }
 
 function ToCarousel(recipientId, response, recommendations){
     
     var response = {
-        recipient :{ id: recipientId},
+        recipient: { id: recipientId},
         message: { attachment: {
             type: "template",
             payload: {
