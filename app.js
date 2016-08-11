@@ -283,7 +283,7 @@ function baobao(recipientId, messageText) {
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
-        if (typeof body == 'undefined' || body == null ){
+        if (typeof body == 'undefined' || body == null || JSON.parse(body).length == 0){
             baobao_useless(recipientId, response);
         }else{
             var recommendations = JSON.parse(body);
@@ -297,9 +297,11 @@ function baobao(recipientId, messageText) {
 }
 
 function baobao_useless(recipientId, response){
+    var num = Math.floor((Math.random() * 5));
+    var textset = ["寶寶沒用 寶寶不說", "寶寶廢 寶寶找不到", "果粉會告訴你100個你用不到的功能", "戀愛惹", "假的  眼睛業障重"]
     var response = {
         recipient: { id: recipientId},
-        message: {"text": "寶寶沒用 寶寶不說"}
+        message: {"text": textset[num]}
     };
     callSendAPI(response);
 }
