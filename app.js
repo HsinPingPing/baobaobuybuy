@@ -283,10 +283,10 @@ function baobao(recipientId, messageText) {
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
-        if (typeof body == 'undefined' || body == null || JSON.parse(body).length == 0){
+        var recommendations = JSON.parse(body);
+        if (typeof body == 'undefined' || body == null || recommendations.length == 0){
             baobao_useless(recipientId, response);
         }else{
-            var recommendations = JSON.parse(body);
             if ( recommendations.length > 1){
                 ToCarousel(recipientId, response, recommendations);
             }else{
