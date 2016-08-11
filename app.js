@@ -283,7 +283,7 @@ function baobao(recipientId, messageText) {
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
-        if (typeof myVar != 'undefined'){
+        if (typeof body != 'undefined' || body === null ){
             baobao_useless(recipientId, response);
         }else{
             var recommendations = JSON.parse(body);
