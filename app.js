@@ -310,14 +310,11 @@ function ToKG(recipientId, response, recommendations){
 
     var response = {
         recipient :{ id: recipientId },
-        message: {
-            attachment: {
-                type: "template",
-                payload: {
-                    "template_type": "generic",
-                    "elements": []
-                    }
-                }
+        message: { attachment: {
+            type: "template",
+            payload: {
+                template_type: "generic",
+                elements: []}        
         }}};
     response.message.attachment.payload.elements = recommendations;
     console.log("baobao KG content >>>", response);
