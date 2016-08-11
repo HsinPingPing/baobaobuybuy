@@ -211,8 +211,8 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    baobao(senderID, messageText, false);
-    // baobao(senderID, messageText);
+    //baobao(senderID, messageText, false);
+     baobao(senderID, messageText);
   } else if (messageAttachments) {
     // gulis(senderID, messageAttachments, 'attachments');
   } else {
@@ -271,55 +271,67 @@ function receivedPostback(event) {
   // var msg = msgs[Math.floor(Math.random() * msgs.length)];
 
   // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
-  baobao(senderID, '', true);
+  //baobao(senderID, '', true);
 
 
 }
 
-function baobao(recipientId, messageText, postback) {
+function baobaoTrigger(recipientId, messageText) {
     
     console.log(messageText);
     //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
-    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText);
-    
+    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
     request.get(flaskBackend, function(error, response, body) {
         console.log(">>>>", body);
         var recommendations = JSON.parse(body);
-        var more = [
-    {
-        title: "閃靈快手",
-        subtitle: "派對桌遊",
-        image_url: "http://i.imgur.com/0yKBLwI.png",
-        buttons: [{
-          type: "web_url",
-          url: "https://tw.search.yahoo.com/search?p=%E9%96%83%E9%9D%88%E5%BF%AB%E6%89%8B",
-          title: "看更多",
-        }]
-    }
-  ];
-
-  var response = {
-      recipient :{
-          id: recipientId
-      },
-      message: {
-        attachment: {
-          type: "template",
-          payload: {
-            template_type: "generic",
-            elements: []
-          }
+        if ( recommendations.length > 1){
+            ToCarousel(recipientId, response, recommendations);
+        }else{
+            ToKG(recipientId, response, recommendations);
         }
-      }
-  };
-
-  if(postback) {
-    response.message.attachment.payload.elements = more;
-  } else {
-    response.message.attachment.payload.elements = recommendations;
-  }
-      callSendAPI(response);
     });
+}
+
+function ToCarousel(recipientId, response, recommendations){
+    
+    var response = {
+        recipient :{ id: recipientId},
+        message: { attachment: {
+            type: "template",
+            payload: {
+                template_type: "generic",
+                elements: []}
+        }}};
+    response.message.attachment.payload.elements = recommendations;
+    callSendAPI(response);
+}
+
+function ToKG(recipientId, response, recommendations){
+    
+    var response = {
+        recipient :{ id: recipientId},
+        message: { attachment: {
+            type: "template",
+            payload: {
+                template_type: "receipt",
+                elements: [{
+                    "title":"Classic White T-Shirt",
+                    "subtitle":"100% Soft and Luxurious Cotton",
+                    "quantity":2,
+                    "price":50,
+                    "currency":"USD",
+                    "image_url":"http://petersapparel.parseapp.com/img/whiteshirt.png"
+                },{
+                    "title":"Classic Gray T-Shirt",
+                    "subtitle":"100% Soft and Luxurious Cotton",
+                    "quantity":1,
+                    "price":25,
+                    "currency":"USD",
+                    "image_url":"http://petersapparel.parseapp.com/img/grayshirt.png"
+                }]}
+        }}};
+    //response.message.attachment.payload.elements = recommendations;
+    callSendAPI(response);
 }
 
 /*
