@@ -276,7 +276,7 @@ function receivedPostback(event) {
 
 }
 
-function baobaoTrigger(recipientId, messageText) {
+function baobao(recipientId, messageText) {
     
     console.log(messageText);
     //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
