@@ -314,18 +314,19 @@ function ToKG(recipientId, response, recommendations){
             attachment: {
                 type: "template",
                 payload: {
-                    template_type: "receipt",
-                    recipient_name:"recipient_name",
-                    order_number:"123456789",
-                    currency:"NTD",
-                    payment_method:"Visa 1234",
-                    elements: [],
-                    summary:{
+                    "template_type": "receipt",
+                    "recipient_name": "Stephane Crozatier",
+                    "order_number": "12345678902",
+                    "currency": "USD",
+                    "payment_method":"Visa 2345",
+                    "elements": [],
+                    "summary": {
                         "total_cost":88.77
                     }
                 }
         }}};
     response.message.attachment.payload.elements = recommendations;
+    console.log("baobao KG content >>>", response);
     callSendAPI(response);
 }
 
