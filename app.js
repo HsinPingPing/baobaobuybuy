@@ -284,9 +284,7 @@ function baobao(recipientId, messageText) {
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
         var recommendations = JSON.parse(body);
-        if (typeof body == 'undefined' || body === null ){
-            baobao_useless(recipientId, response);
-        }else if(recommendations.length == 0){
+        if (typeof recommendations == 'undefined' || recommendations === null || recommendations.length == 0){
             baobao_useless(recipientId, response);
         }else{
             if ( recommendations.length > 1){
