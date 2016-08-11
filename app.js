@@ -334,7 +334,7 @@ function ToKG(recipientId, response, recommendations){
                     "price":25,
                     "currency":"USD",
                     "image_url":"http://petersapparel.parseapp.com/img/grayshirt.png"
-                }]
+                }],
                 "address":{
                     "street_1":"1 Hacker Way",
                     "street_2":"",
