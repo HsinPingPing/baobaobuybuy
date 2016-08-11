@@ -314,14 +314,8 @@ function ToKG(recipientId, response, recommendations){
             attachment: {
                 type: "template",
                 payload: {
-                    "template_type": "receipt",
-                    "recipient_name": "Stephane Crozatier",
-                    "order_number": "12345678902",
-                    "currency": "USD",
-                    "payment_method":"Visa 2345",
-                    "elements": [],
-                    "summary": {
-                        "total_cost":88.77
+                    "template_type": "generic",
+                    "elements": []
                     }
                 }
         }}};
