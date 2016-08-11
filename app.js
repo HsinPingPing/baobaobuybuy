@@ -282,7 +282,7 @@ function baobao(recipientId, messageText) {
     //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
     request.get(flaskBackend, function(error, response, body) {
-        console.log(">>>>", body);
+        console.log("baobao body >>>>", body);
         var recommendations = JSON.parse(body);
         if ( recommendations.length > 1){
             ToCarousel(recipientId, response, recommendations);
@@ -309,26 +309,23 @@ function ToCarousel(recipientId, response, recommendations){
 function ToKG(recipientId, response, recommendations){
 
     var response = {
-            recipient :{ id: recipientId
-               },
-               message: {
-                     attachment: {
-                           type: "template",
-                           payload: {
-                                 template_type: "receipt",
-                                 recipient_name:"recipient_name",
-                                 order_number:"123456789",
-                                 currency:"NTD",
-                                 payment_method:"Visa 1234",
-                                 elements: [],
-                                 summary:{
-                                       "total_cost":88.77
-                                     }
-                                   }
-                                 }
-                               }
-                             };
-    //response.message.attachment.payload.elements = recommendations;
+        recipient :{ id: recipientId },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "receipt",
+                    recipient_name:"recipient_name",
+                    order_number:"123456789",
+                    currency:"NTD",
+                    payment_method:"Visa 1234",
+                    elements: [],
+                    summary:{
+                        "total_cost":88.77
+                    }
+                }
+        }}};
+    response.message.attachment.payload.elements = recommendations;
     callSendAPI(response);
 }
 
