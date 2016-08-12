@@ -278,7 +278,7 @@ function receivedPostback(event) {
     if (payload == "PICK_BOARDGAME" || payload == "PICK_CELLPHONE" || payload == "DONOTHING")
         baobao(senderID, payload, timeOfPostback);
     else 
-        baobao(senderID, payload.substring(1), timeOfPostback);
+        baobao(senderID, payload.substring(1).replace(" ", ""), timeOfPostback);
 
 }
 
