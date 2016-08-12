@@ -211,10 +211,10 @@ function receivedMessage(event) {
     var messageAttachments = message.attachments;
     var messageQuickReply = message.quick_reply;
 
-    if(messageQuickReply){
-        baobao(senderID, messageQuickReply.payload, timeOfMessage);
-    }
-    else if (messageText) {
+    //if(messageQuickReply){
+    //    baobao(senderID, messageQuickReply.payload, timeOfMessage);
+    //}
+    if (messageText) {
         baobao(senderID, messageText, timeOfMessage);
     } else if (messageAttachments) {
         // gulis(senderID, messageAttachments, 'attachments');
@@ -401,6 +401,7 @@ function ToCarousel(recipientId, recommendations, messageText){
                             }]}
         }}};
     
+    console.log("Carousel content 3 >>>", response3);
     callSendAPI(response1);
     callSendAPI(response2);
     callSendAPI(response3);
