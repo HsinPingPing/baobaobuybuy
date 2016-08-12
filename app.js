@@ -364,11 +364,11 @@ function ToCarousel(recipientId, response, recommendations, messageText){
     response.message.attachment.payload.elements = recommendations;
     console.log("baobao Carousel content 1 >>>", response);
     callSendAPI(response);
-    AddSeeMoreButtons(recipientId);
+    AddSeeMoreButtons(recipientId, messageText);
 
 }
 
-function AddSeeMoreButtons(recipientId){
+function AddSeeMoreButtons(recipientId, messageText){
     var response = {
         recipient: { id: recipientId},
         message: { attachment: {
