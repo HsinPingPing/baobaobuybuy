@@ -68,11 +68,11 @@ app.get('/webhook', function(req, res) {
 
 app.get('/test', function(req, res) {
     
-    console.log(req.query.sent);
+    console.log("test query", req.query.sent);
     var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/'+encodeURIComponent(req.query.sent);
 
     request.get(flaskBackend, function(error, response, body) {
-        console.log(body);
+        console.log("test body", body);
         // parse JSON string to object
         // var recommendations = JSON.parse(body);
         var recommendations = [];
@@ -279,18 +279,25 @@ function receivedPostback(event) {
 function baobao(recipientId, messageText) {
     
     console.log(messageText);
-    //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + encodeURIComponent(messageText);
-    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + encodeURIComponent(messageText); 
+    var rmessage = '' + encodeURIComponent(messageText);
+    //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + rmessage
+    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
         var recommendations = JSON.parse(body);
-        if (typeof (recommendations) == 'undefined' || recommendations === null || recommendations.length == 0){
+        if (typeof (recommendations) == 'undefined' || recommendations === null){
             baobao_useless(recipientId, response);
         }else{
-            if ( recommendations.length > 1){
-                ToCarousel(recipientId, response, recommendations);
+            if ( recommendations.type == 'greeting'){
+                // greeting
+            }else if (recommendations.type == 'carousel'){
+                ToCarousel(recipientId, response, recommendations.data, encodeURIComponent(messageText));
+            }else if (recommendations.type == 'kg'){
+                ToKG(recipientId, response, recommendations.data);
+            }else if (recommendations.type == 'text'){
+                baobao_ask(recipientId, response, recommendations.data);
             }else{
-                ToKG(recipientId, response, recommendations);
+                baobao_useless(recipientId, response);
             }
         }
     });
@@ -303,10 +310,20 @@ function baobao_useless(recipientId, response){
         recipient: { id: recipientId},
         message: {"text": textset[num]}
     };
+    console.log("baobao baobao_useless >>>", response);
     callSendAPI(response);
 }
 
-function ToCarousel(recipientId, response, recommendations){
+function baobao_ask(recipientId, response){
+    var response = {
+        recipient: { id: recipientId},
+        message: {"text": "What’re you looking for? Use one or two  words to tell me what you want to know more about. For example, you could type “4~5人” or “大螢幕” "}
+    };
+    console.log("baobao baobao_useless >>>", response);
+    callSendAPI(response);
+}
+
+function ToCarousel(recipientId, response, recommendations, messageText){
     
     var response = {
         recipient: { id: recipientId},
@@ -316,7 +333,24 @@ function ToCarousel(recipientId, response, recommendations){
                 template_type: "generic",
                 elements: []}
         }}};
+    
     response.message.attachment.payload.elements = recommendations;
+    console.log("baobao Carousel content 1 >>>", response);
+    callSendAPI(response);
+
+    var response = {
+        recipient: { id: recipientId},
+        message: { attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                elements: [
+                    "type": "web_url",
+                    "url": "https://tw.search.yahoo.com/search?p=" + messageText,
+                    "title": "看更多"
+                ]}
+        }}};
+    console.log("baobao Carousel content 2 >>>", response);
     callSendAPI(response);
 }
 
