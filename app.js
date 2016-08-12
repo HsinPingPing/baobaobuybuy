@@ -209,12 +209,19 @@ function receivedMessage(event) {
 
   var messageText = message.text;
   var messageAttachments = message.attachments;
+  var messageQuickReply = message.quick_reply;
+
+  if(messageQuickReply){
+      console.log("messageQuickReply >>>", messageQuickReply);
+    }
 
   if (messageText) {
      baobao(senderID, messageText, timeOfMessage);
   } else if (messageAttachments) {
     // gulis(senderID, messageAttachments, 'attachments');
-  } else {
+  } else if (messageQuickReply){
+    console.log("messageQuickReply >>>", messageQuickReply);
+  }else{
     // TODO
   }
 }
@@ -341,10 +348,10 @@ function baobao_useless(recipientId, response){
     callSendAPI(response);
 }
 
-function baobao_ask(recipientId, response){
+function baobao_ask(recipientId, response, askmessage){
     var response = {
         recipient: { id: recipientId},
-        message: {"text": "What’re you looking for? Use one or two  words to tell me what you want to know more about. For example, you could type “4~5人” or “大螢幕” "}
+        message: {"text": askmessage}
     };
     console.log("baobao baobao_useless >>>", response);
     callSendAPI(response);
