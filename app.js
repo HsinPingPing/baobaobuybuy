@@ -404,7 +404,7 @@ function ToCarousel(recipientId, recommendations, messageText){
     callSendAPI(response3);
 }
 
-function ToKG(recipientId, response, recommendations){
+function ToKG(recipientId, recommendations){
 
     var response = {
         recipient :{ id: recipientId },
