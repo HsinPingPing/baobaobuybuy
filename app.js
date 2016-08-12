@@ -399,10 +399,10 @@ function ToCarousel(recipientId, response, recommendations, messageText){
         message: { attachment: {
             type: "template",
             payload: {
-                template_type: "button",
-                text : "",
-                buttons: [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
-        }}};
+                "template_type": "button",
+                "text" : "What do you want to do next?",
+                "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
+    }}};
     console.log("Carousel content 3 >>>", response3);
     if (response1 && response2 && response3)
         callSendAPI(response3);
