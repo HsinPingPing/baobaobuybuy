@@ -344,7 +344,8 @@ function ToCarousel(recipientId, response, recommendations, messageText){
             type: "template",
             payload: {
                 template_type: "button",
-                elements: [
+                text: "pick",
+                buttons: [
                     "type": "web_url",
                     "url": "https://tw.search.yahoo.com/search?p=" + messageText,
                     "title": "看更多"
