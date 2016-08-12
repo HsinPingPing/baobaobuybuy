@@ -291,10 +291,10 @@ function baobao(recipientId, messageText, timeOfMessage) {
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
-        var recommendations = JSON.parse(body);
-        if (typeof (recommendations) == 'undefined' || recommendations === null){
+        if (typeof (body) == 'undefined' || body === null){
             baobao_useless(recipientId, response);
         }else{
+            var recommendations = JSON.parse(body);
             if ( recommendations.type == 'greeting'){
                 baobao_greeting(recipientId, response);
             }else if (recommendations.type == 'carousel'){
@@ -400,7 +400,8 @@ function ToCarousel(recipientId, response, recommendations, messageText){
                 "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
     }}};
     console.log("Carousel content 3 >>>", response3);
-    if(callSendAPI(response1) && callSendAPI(response2) && callSendAPI(response3)){
+    if(callSendAPI(response1) && callSendAPI(response2)){
+        callSendAPI(response3);
     }
 }
 
