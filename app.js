@@ -212,10 +212,9 @@ function receivedMessage(event) {
     var messageQuickReply = message.quick_reply;
 
     if(messageQuickReply){
-        messageText = messageQuickReply;
+        baobao(senderID, messageQuickReply, timeOfMessage);
     }
-
-    if (messageText) {
+    else if (messageText) {
         baobao(senderID, messageText, timeOfMessage);
     } else if (messageAttachments) {
         // gulis(senderID, messageAttachments, 'attachments');
