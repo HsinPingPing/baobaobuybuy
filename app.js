@@ -368,7 +368,7 @@ function ToCarousel(recipientId, response, recommendations, messageText){
 
 }
 
-function AddSeeMoreButtons(recipient){
+function AddSeeMoreButtons(recipientId){
     var response = {
         recipient: { id: recipientId},
         message: { attachment: {
