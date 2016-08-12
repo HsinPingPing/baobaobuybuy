@@ -232,21 +232,21 @@ function receivedMessage(event) {
  *
  */
 function receivedDeliveryConfirmation(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var delivery = event.delivery;
-  var messageIDs = delivery.mids;
-  var watermark = delivery.watermark;
-  var sequenceNumber = delivery.seq;
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
+    var delivery = event.delivery;
+    var messageIDs = delivery.mids;
+    var watermark = delivery.watermark;
+    var sequenceNumber = delivery.seq;
 
-  if (messageIDs) {
-    messageIDs.forEach(function(messageID) {
-      console.log("Received delivery confirmation for message ID: %s", 
-        messageID);
-    });
-  }
+    if (messageIDs) {
+        messageIDs.forEach(function(messageID) {
+                console.log("Received delivery confirmation for message ID: %s", 
+                    messageID);
+                });
+    }
 
-  console.log("All message before %d were delivered.", watermark);
+    console.log("All message before %d were delivered.", watermark);
 }
 
 
@@ -283,11 +283,11 @@ function receivedPostback(event) {
 }
 
 function baobao(recipientId, messageText, timeOfMessage) {
+    //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + rmessage
     
     console.log(messageText, timeOfMessage);
     var rmessage = recipientId + '_' + timeOfMessage + '_' + encodeURIComponent(messageText);
     console.log(rmessage);
-    //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + rmessage
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
@@ -397,7 +397,7 @@ function ToCarousel(recipientId, recommendations, messageText){
             payload: {
                 template_type: "generic",
                 elements: [{"title": '看更多', 
-                            "button": {"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}
+                            "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]
                             }]}
         }}};
     
@@ -445,6 +445,7 @@ function sendTextMessage(recipientId, messageText) {
  *
  */
 function callSendAPI(messageData) {
+
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -461,8 +462,8 @@ function callSendAPI(messageData) {
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
-      // console.error(response);
-      // console.error(error);
+      //console.error(response);
+      console.error(error);
     }
   });  
 }
