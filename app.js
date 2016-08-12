@@ -389,7 +389,7 @@ function ToCarousel(recipientId, response, recommendations, messageText){
         }}};
 
     
-    response.message.attachment.payload.elements = recommendations;
+    response2.message.attachment.payload.elements = recommendations;
     console.log("Carousel content 2 >>>", response2);
     if(response1 && response2)
         callSendAPI(response2);
