@@ -201,29 +201,27 @@ function receivedAuthentication(event) {
  */
 function receivedMessage(event) {
 
-  var senderID = event.sender.id;
-  var sender = event.sender;
-  var recipientID = event.recipient.id;
-  var timeOfMessage = event.timestamp;
-  var message = event.message;
+    var senderID = event.sender.id;
+    var sender = event.sender;
+    var recipientID = event.recipient.id;
+    var timeOfMessage = event.timestamp;
+    var message = event.message;
 
-  var messageText = message.text;
-  var messageAttachments = message.attachments;
-  var messageQuickReply = message.quick_reply;
+    var messageText = message.text;
+    var messageAttachments = message.attachments;
+    var messageQuickReply = message.quick_reply;
 
-  if(messageQuickReply){
-      console.log("messageQuickReply >>>", messageQuickReply);
+    if(messageQuickReply){
+        messageText = messageQuickReply;
     }
 
-  if (messageText) {
-     baobao(senderID, messageText, timeOfMessage);
-  } else if (messageAttachments) {
-    // gulis(senderID, messageAttachments, 'attachments');
-  } else if (messageQuickReply){
-    console.log("messageQuickReply >>>", messageQuickReply);
-  }else{
-    // TODO
-  }
+    if (messageText) {
+        baobao(senderID, messageText, timeOfMessage);
+    } else if (messageAttachments) {
+        // gulis(senderID, messageAttachments, 'attachments');
+    } else{
+        // TODO
+    }
 }
 
 
