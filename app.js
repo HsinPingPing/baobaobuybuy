@@ -275,10 +275,7 @@ function receivedPostback(event) {
     // var msg = msgs[Math.floor(Math.random() * msgs.length)];
 
     // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
-    if (payload == "PICK_BOARDGAME" || payload == "PICK_CELLPHONE" || payload == "DONOTHING")
-        baobao(senderID, payload, timeOfPostback);
-    else 
-        baobao(senderID, payload.substring(1).replace(" ", ""), timeOfPostback);
+    baobao(senderID, payload.substring(1).replace(/ /g, ""), timeOfPostback);
 
 }
 
