@@ -255,24 +255,27 @@ function receivedDeliveryConfirmation(event) {
  * 
  */
 function receivedPostback(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var timeOfPostback = event.timestamp;
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
+    var timeOfPostback = event.timestamp;
 
-  // The 'payload' param is a developer-defined field which is set in a postback 
-  // button for Structured Messages.
-  var payload = event.postback.payload;
+    // The 'payload' param is a developer-defined field which is set in a postback 
+    // button for Structured Messages.
+    var payload = event.postback.payload;
 
-  console.log("Received postback for user %d and page %d with payload '%s' " + 
-    "at %d", senderID, recipientID, payload, timeOfPostback);
-  console.log("Get Message >>>", payload.substring(1));
+    console.log("Received postback for user %d and page %d with payload '%s' " + 
+            "at %d", senderID, recipientID, payload, timeOfPostback);
+    console.log("Get Message >>>", payload.substring(1));
 
-  // When a postback is called, we'll send a message back to the sender to 
-  // let them know it was successful
-  // var msg = msgs[Math.floor(Math.random() * msgs.length)];
+    // When a postback is called, we'll send a message back to the sender to 
+    // let them know it was successful
+    // var msg = msgs[Math.floor(Math.random() * msgs.length)];
 
-  // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
-  baobao(senderID, payload.substring(1));
+    // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
+    if (payload == "PICK_BOARDGAME" || payload == "PICK_CELLPHONE" || payload == "DONOTHING")
+        baobao(senderID, payload);
+    else 
+        baobao(senderID, payload.substring(1));
 
 }
 
@@ -289,7 +292,7 @@ function baobao(recipientId, messageText) {
             baobao_useless(recipientId, response);
         }else{
             if ( recommendations.type == 'greeting'){
-                // greeting
+                baobao_greeting(recipientId, response);
             }else if (recommendations.type == 'carousel'){
                 ToCarousel(recipientId, response, recommendations.data, encodeURIComponent(messageText));
             }else if (recommendations.type == 'kg'){
@@ -301,6 +304,30 @@ function baobao(recipientId, messageText) {
             }
         }
     });
+}
+
+function baobao_greeting(recipientId, response){
+    
+    var response = {
+        recipient: { id: recipientId},
+        message: {
+            "text": 'which type do you want to search? Boardgam or Cellphone',
+            "quick_replies":[{
+                "content_type":"text",
+                "title":"Boardgame",
+                "payload": "PICK_BOARDGAME"
+            },{
+                "content_type":"text",
+                "title":"Cellphone",
+                "payload": "PICK_CELLPHONE"
+            },{
+                "content_type":"text",
+                "title": "No",
+                "payload": "DONOTHING"
+            }]}
+    };
+    console.log("baobao baobao_greeting >>>", response);
+    callSendAPI(response);
 }
 
 function baobao_useless(recipientId, response){
@@ -337,7 +364,11 @@ function ToCarousel(recipientId, response, recommendations, messageText){
     response.message.attachment.payload.elements = recommendations;
     console.log("baobao Carousel content 1 >>>", response);
     callSendAPI(response);
+    AddSeeMoreButtons(recipient);
 
+}
+
+function AddSeeMoreButtons(recipient){
     var response = {
         recipient: { id: recipientId},
         message: { attachment: {
