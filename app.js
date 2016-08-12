@@ -211,7 +211,7 @@ function receivedMessage(event) {
     var messageAttachments = message.attachments;
     var messageQuickReply = message.quick_reply;
 
-    if(messageQuickReply.payload){
+    if(messageQuickReply && messageQuickReply.payload){
         baobao(senderID, messageQuickReply.payload, timeOfMessage);
     }else if (messageText) {
         baobao(senderID, messageText, timeOfMessage);
