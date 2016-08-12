@@ -376,8 +376,6 @@ function ToCarousel(recipientId, response, recommendations, messageText){
         message: {"text": textset[num]}
     };
     console.log("baobaoPickForYou >>>", response1);
-    if(response1)
-        callSendAPI(response1);
     
     var response2 = {
         recipient: { id: recipientId},
@@ -391,8 +389,6 @@ function ToCarousel(recipientId, response, recommendations, messageText){
     
     response2.message.attachment.payload.elements = recommendations;
     console.log("Carousel content 2 >>>", response2);
-    if(response1 && response2)
-        callSendAPI(response2);
     
     var response3 = {
         recipient: { id: recipientId},
@@ -404,8 +400,8 @@ function ToCarousel(recipientId, response, recommendations, messageText){
                 "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
     }}};
     console.log("Carousel content 3 >>>", response3);
-    if (response1 && response2 && response3)
-        callSendAPI(response3);
+    if(callSendAPI(response1) && callSendAPI(response2) && callSendAPI(response3)){
+    }
 }
 
 function ToKG(recipientId, response, recommendations){
