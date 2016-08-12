@@ -400,9 +400,9 @@ function ToCarousel(recipientId, response, recommendations, messageText){
                 "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
     }}};
     console.log("Carousel content 3 >>>", response3);
-    if(callSendAPI(response1) && callSendAPI(response2)){
-        callSendAPI(response3);
-    }
+    callSendAPI(response1);
+    callSendAPI(response2);
+    callSendAPI(response3);
 }
 
 function ToKG(recipientId, response, recommendations){
