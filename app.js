@@ -345,11 +345,11 @@ function ToCarousel(recipientId, response, recommendations, messageText){
             payload: {
                 template_type: "button",
                 text: "pick",
-                buttons: [
+                buttons: [{
                     "type": "web_url",
                     "url": "https://tw.search.yahoo.com/search?p=" + messageText,
                     "title": "看更多"
-                ]}
+                }]}
         }}};
     console.log("baobao Carousel content 2 >>>", response);
     callSendAPI(response);
