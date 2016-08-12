@@ -211,8 +211,7 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    //baobao(senderID, messageText, false);
-     baobao(senderID, messageText);
+     baobao(senderID, messageText, timeOfMessage);
   } else if (messageAttachments) {
     // gulis(senderID, messageAttachments, 'attachments');
   } else {
@@ -273,16 +272,17 @@ function receivedPostback(event) {
 
     // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
     if (payload == "PICK_BOARDGAME" || payload == "PICK_CELLPHONE" || payload == "DONOTHING")
-        baobao(senderID, payload);
+        baobao(senderID, payload, timeOfPostback);
     else 
-        baobao(senderID, payload.substring(1));
+        baobao(senderID, payload.substring(1), timeOfPostback);
 
 }
 
-function baobao(recipientId, messageText) {
+function baobao(recipientId, messageText, timeofMessage) {
     
-    console.log(messageText);
-    var rmessage = '' + encodeURIComponent(messageText);
+    console.log(messageText, timeOfMessage);
+    var rmessage = recipientId + '_' + timeofMessage + '_' + encodeURIComponent(messageText);
+    console.log(rmessage);
     //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + rmessage
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
     request.get(flaskBackend, function(error, response, body) {
