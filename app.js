@@ -278,10 +278,10 @@ function receivedPostback(event) {
 
 }
 
-function baobao(recipientId, messageText, timeofMessage) {
+function baobao(recipientId, messageText, timeOfMessage) {
     
     console.log(messageText, timeOfMessage);
-    var rmessage = recipientId + '_' + timeofMessage + '_' + encodeURIComponent(messageText);
+    var rmessage = recipientId + '_' + timeOfMessage + '_' + encodeURIComponent(messageText);
     console.log(rmessage);
     //var flaskBackend = 'http://oxy-oxygen-0a52c618.corp.sg3.yahoo.com:5000/trigger/' + rmessage
     var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
