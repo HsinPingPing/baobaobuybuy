@@ -296,21 +296,21 @@ function baobao(recipientId, messageText, timeOfMessage) {
         }else{
             var recommendations = JSON.parse(body);
             if ( recommendations.type == 'greeting'){
-                baobao_greeting(recipientId, response);
+                baobao_greeting(recipientId);
             }else if (recommendations.type == 'carousel'){
-                ToCarousel(recipientId, response, recommendations.data, encodeURIComponent(messageText));
+                ToCarousel(recipientId, recommendations.data, encodeURIComponent(messageText));
             }else if (recommendations.type == 'kg'){
-                ToKG(recipientId, response, recommendations.data);
+                ToKG(recipientId, recommendations.data);
             }else if (recommendations.type == 'text'){
-                baobao_ask(recipientId, response, recommendations.data);
+                baobao_ask(recipientId, recommendations.data);
             }else{
-                baobao_useless(recipientId, response);
+                baobao_useless(recipientId);
             }
         }
     });
 }
 
-function baobao_greeting(recipientId, response){
+function baobao_greeting(recipientId){
     
     var response = {
         recipient: { id: recipientId},
@@ -334,7 +334,7 @@ function baobao_greeting(recipientId, response){
     callSendAPI(response);
 }
 
-function baobao_useless(recipientId, response){
+function baobao_useless(recipientId){
 
     var num = Math.floor((Math.random() * 7));
     var textset = ["寶寶沒用 寶寶不說", 
@@ -353,7 +353,8 @@ function baobao_useless(recipientId, response){
     callSendAPI(response);
 }
 
-function baobao_ask(recipientId, response, askmessage){
+function baobao_ask(recipientId, askmessage){
+
     var response = {
         recipient: { id: recipientId},
         message: {"text": askmessage}
@@ -362,7 +363,7 @@ function baobao_ask(recipientId, response, askmessage){
     callSendAPI(response);
 }
 
-function ToCarousel(recipientId, response, recommendations, messageText){
+function ToCarousel(recipientId, recommendations, messageText){
 
     var num = Math.floor((Math.random() * 5));
     var textset = [ "我想你可能會喜歡",
@@ -370,13 +371,12 @@ function ToCarousel(recipientId, response, recommendations, messageText){
                     "這些如何呀",
                     "拿去啦 自己不會找嗎",
                     "這些其實是寶寶喜歡的"]
-
+    
     var response1 = {
         recipient: { id: recipientId},
         message: {"text": textset[num]}
     };
-    console.log("baobaoPickForYou >>>", response1);
-    
+ 
     var response2 = {
         recipient: { id: recipientId},
         message: { attachment: {
@@ -395,11 +395,12 @@ function ToCarousel(recipientId, response, recommendations, messageText){
         message: { attachment: {
             type: "template",
             payload: {
-                "template_type": "button",
-                "text" : "What do you want to do next?",
-                "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
-    }}};
-    console.log("Carousel content 3 >>>", response3);
+                template_type: "generic",
+                elements: [{"title": '看更多', 
+                            "button": {"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}
+                            }]}
+        }}};
+    
     callSendAPI(response1);
     callSendAPI(response2);
     callSendAPI(response3);
