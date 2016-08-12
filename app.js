@@ -319,11 +319,11 @@ function baobao_greeting(recipientId, response){
             "quick_replies":[{
                 "content_type":"text",
                 "title":"Boardgame",
-                "payload": "PICK_BOARDGAME"
+                "payload": "PICKBOARDGAME"
             },{
                 "content_type":"text",
                 "title":"Cellphone",
-                "payload": "PICK_CELLPHONE"
+                "payload": "PICKCELLPHONE"
             },{
                 "content_type":"text",
                 "title": "No",
