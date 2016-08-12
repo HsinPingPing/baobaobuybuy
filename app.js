@@ -339,7 +339,7 @@ function baobao_useless(recipientId, response){
     var num = Math.floor((Math.random() * 7));
     var textset = ["寶寶沒用 寶寶不說", 
                     "寶寶廢 寶寶找不到",
-                    "為何又讓寶寶傷心又難過"
+                    "為何又讓寶寶傷心又難過",
                     "果粉會告訴你100個你用不到的功能",
                     "戀愛惹",
                     "假的  眼睛業障重",
@@ -362,7 +362,7 @@ function baobao_ask(recipientId, response, askmessage){
     callSendAPI(response);
 }
 
-function ToCarousel(recipientId, response, recommendations){
+function ToCarousel(recipientId, response, recommendations, messageText){
 
     var num = Math.floor((Math.random() * 5));
     var textset = [ "我想你可能會喜歡",
@@ -371,14 +371,15 @@ function ToCarousel(recipientId, response, recommendations){
                     "拿去啦 自己不會找嗎",
                     "這些其實是寶寶喜歡的"]
 
-    var response = {
+    var response1 = {
         recipient: { id: recipientId},
         message: {"text": textset[num]}
     };
-    console.log("baobaoPickForYou >>>", response);
-    callSendAPI(response);
+    console.log("baobaoPickForYou >>>", response1);
+    if(response1)
+        callSendAPI(response1);
     
-    var response = {
+    var response2 = {
         recipient: { id: recipientId},
         message: { attachment: {
             type: "template",
@@ -386,11 +387,25 @@ function ToCarousel(recipientId, response, recommendations){
                 template_type: "generic",
                 elements: []}
         }}};
+
     
     response.message.attachment.payload.elements = recommendations;
-    console.log("baobao Carousel content 1 >>>", response);
-    callSendAPI(response);
-
+    console.log("Carousel content 2 >>>", response2);
+    if(response1 && response2)
+        callSendAPI(response2);
+    
+    var response3 = {
+        recipient: { id: recipientId},
+        message: { attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                text : "",
+                buttons: [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]}
+        }}};
+    console.log("Carousel content 3 >>>", response3);
+    if (response1 && response2 && response3)
+        callSendAPI(response3);
 }
 
 function ToKG(recipientId, response, recommendations){
