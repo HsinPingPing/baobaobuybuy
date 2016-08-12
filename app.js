@@ -335,8 +335,16 @@ function baobao_greeting(recipientId, response){
 }
 
 function baobao_useless(recipientId, response){
-    var num = Math.floor((Math.random() * 5));
-    var textset = ["寶寶沒用 寶寶不說", "寶寶廢 寶寶找不到", "果粉會告訴你100個你用不到的功能", "戀愛惹", "假的  眼睛業障重"]
+
+    var num = Math.floor((Math.random() * 7));
+    var textset = ["寶寶沒用 寶寶不說", 
+                    "寶寶廢 寶寶找不到",
+                    "為何又讓寶寶傷心又難過"
+                    "果粉會告訴你100個你用不到的功能",
+                    "戀愛惹",
+                    "假的  眼睛業障重",
+                    "寶寶已讀 但寶寶不回"]
+
     var response = {
         recipient: { id: recipientId},
         message: {"text": textset[num]}
@@ -354,7 +362,21 @@ function baobao_ask(recipientId, response, askmessage){
     callSendAPI(response);
 }
 
-function ToCarousel(recipientId, response, recommendations, messageText){
+function ToCarousel(recipientId, response, recommendations){
+
+    var num = Math.floor((Math.random() * 5));
+    var textset = [ "我想你可能會喜歡",
+                    "根據你的回答，我推薦了這些",
+                    "這些如何呀",
+                    "拿去啦 自己不會找嗎",
+                    "這些其實是寶寶喜歡的"]
+
+    var response = {
+        recipient: { id: recipientId},
+        message: {"text": textset[num]}
+    };
+    console.log("baobaoPickForYou >>>", response);
+    callSendAPI(response);
     
     var response = {
         recipient: { id: recipientId},
@@ -368,26 +390,7 @@ function ToCarousel(recipientId, response, recommendations, messageText){
     response.message.attachment.payload.elements = recommendations;
     console.log("baobao Carousel content 1 >>>", response);
     callSendAPI(response);
-    AddSeeMoreButtons(recipientId, messageText);
 
-}
-
-function AddSeeMoreButtons(recipientId, messageText){
-    var response = {
-        recipient: { id: recipientId},
-        message: { attachment: {
-            type: "template",
-            payload: {
-                template_type: "button",
-                text: "pick",
-                buttons: [{
-                    "type": "web_url",
-                    "url": "https://tw.search.yahoo.com/search?p=" + messageText,
-                    "title": "看更多"
-                }]}
-        }}};
-    console.log("baobao Carousel content 2 >>>", response);
-    callSendAPI(response);
 }
 
 function ToKG(recipientId, response, recommendations){
