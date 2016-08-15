@@ -452,7 +452,12 @@ function sendTextMessage(recipientId, messageText) {
  *
  */
 
-function callSendAPI(messageData, messagesType = '', messagesQuery = '') {
+function callSendAPI(messageData, messagesType, messagesQuery) {
+    
+    if (typeof(messagesType) === 'undefined' || typeof(messagesQuery)==='undefined'){
+        messagesType = "";
+        messagesQuery = "";
+    }
 
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
