@@ -386,6 +386,13 @@ function ToCarousel(recipientId, recommendations, messageText){
     response2.message.attachment.payload.elements = recommendations;
     console.log("Carousel content 2 >>>", response2);
     
+    
+    callSendAPI(response1);
+    callSendAPI(response2, 'Carousel', messageText);
+}
+
+function ToCarouselMore(recipientId, messageText){
+
     var response3 = {
         recipient: { id: recipientId},
         message: { attachment: {
@@ -396,10 +403,7 @@ function ToCarousel(recipientId, recommendations, messageText){
                             "buttons": [{"type": "web_url", "url": "https://tw.search.yahoo.com/search?p=" + messageText, "title": "看更多"}]
                             }]}
         }}};
-    
     console.log("Carousel content 3 >>>", response3);
-    callSendAPI(response1);
-    callSendAPI(response2);
     callSendAPI(response3);
 }
 
@@ -447,28 +451,28 @@ function sendTextMessage(recipientId, messageText) {
  * get the message id in a response 
  *
  */
-function callSendAPI(messageData) {
 
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: PAGE_ACCESS_TOKEN },
-    method: 'POST',
-    json: messageData
+function callSendAPI(messageData, messagesType = '', messagesQuery = '') {
 
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
-
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      //console.error(response);
-      //console.error(error);
-    }
-  });  
+    request({
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: messageData
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
+            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+            if (messagesType == 'Carousel' && messagesQuery != ''){
+               ToCarouselMore(body.recipient_id, messagesQuery); 
+            }
+        } else {
+            console.error("Unable to send message.");
+            //console.error(response);
+            //console.error(error);
+        }
+    });  
 }
 
 // Start server
