@@ -211,11 +211,11 @@ function receivedMessage(event) {
     var messageAttachments = message.attachments;
     var messageQuickReply = message.quick_reply;
 
-    if(messageQuickReply && messageQuickReply.payload){
+    if(messageQuickReply && messageQuickReply.payload && senderID != 300405090306637){
         baobao(senderID, messageQuickReply.payload, timeOfMessage);
-    }else if (messageText) {
+    }else if (messageText && senderID != 300405090306637) {
         baobao(senderID, messageText, timeOfMessage);
-    } else if (messageAttachments) {
+    } else if (messageAttachments && senderID != 300405090306637) {
         // gulis(senderID, messageAttachments, 'attachments');
     } else{
         // TODO
@@ -274,8 +274,7 @@ function receivedPostback(event) {
     // var msg = msgs[Math.floor(Math.random() * msgs.length)];
 
     // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
-    if(recipientID != 300405090306637)
-        baobao(senderID, payload.substring(1).replace(/ /g, ""), timeOfPostback);
+    baobao(senderID, payload.substring(1).replace(/ /g, ""), timeOfPostback);
 
 }
 
