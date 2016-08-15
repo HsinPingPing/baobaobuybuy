@@ -311,18 +311,18 @@ function baobao_greeting(recipientId){
     var response = {
         recipient: { id: recipientId},
         message: {
-            "text": 'which type do you want to search? Boardgam or Cellphone',
+            "text": '想找什麼嗎？ 我可以幫你找手機或桌遊喔！',
             "quick_replies":[{
                 "content_type":"text",
-                "title":"Boardgame",
+                "title":"桌遊",
                 "payload": "PICKBOARDGAME"
             },{
                 "content_type":"text",
-                "title":"Cellphone",
+                "title":"手機",
                 "payload": "PICKCELLPHONE"
             },{
                 "content_type":"text",
-                "title": "No",
+                "title": "都不要",
                 "payload": "DONOTHING"
             }]}
     };
@@ -355,7 +355,7 @@ function baobao_ask(recipientId, askmessage){
         recipient: { id: recipientId},
         message: {"text": askmessage}
     };
-    console.log("baobao baobao_useless >>>", response);
+    console.log("baobao baobao_ask >>>", response);
     callSendAPI(response);
 }
 
@@ -415,6 +415,13 @@ function ToKG(recipientId, recommendations){
         }}};
     response.message.attachment.payload.elements = recommendations;
     console.log("baobao KG content >>>", response);
+
+    var response_text = {
+        recipient: { id: recipientId},
+        message: {"text": "這是這個商品的基本資訊，點看更多有更完整的介紹喔～"}
+    };
+
+    callSendAPI(response_text);
     callSendAPI(response);
 }
 
