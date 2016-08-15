@@ -274,7 +274,8 @@ function receivedPostback(event) {
     // var msg = msgs[Math.floor(Math.random() * msgs.length)];
 
     // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
-    baobao(senderID, payload.substring(1).replace(/ /g, ""), timeOfPostback);
+    if(senderID != 300405090306637)
+        baobao(senderID, payload.substring(1).replace(/ /g, ""), timeOfPostback);
 
 }
 
@@ -466,7 +467,7 @@ function callSendAPI(messageData) {
     } else {
       console.error("Unable to send message.");
       //console.error(response);
-      console.error(error);
+      //console.error(error);
     }
   });  
 }
