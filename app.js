@@ -284,7 +284,8 @@ function baobao(recipientId, messageText, timeOfMessage) {
     console.log(messageText, timeOfMessage);
     var rmessage = recipientId + '_' + timeOfMessage + '_' + encodeURIComponent(messageText);
     console.log(rmessage);
-    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
+    // var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
+    var flaskBackend = 'http://linux11.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
         if (typeof (body) == 'undefined' || body === null){
