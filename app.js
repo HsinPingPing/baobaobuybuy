@@ -274,7 +274,7 @@ function receivedPostback(event) {
     // var msg = msgs[Math.floor(Math.random() * msgs.length)];
 
     // sendTextMessage(senderID, '已加入 ' + payload + '，' + msg);
-    if(senderID != 300405090306637)
+    if(recipientID != 300405090306637)
         baobao(senderID, payload.substring(1).replace(/ /g, ""), timeOfPostback);
 
 }
