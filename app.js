@@ -428,8 +428,7 @@ function ToKG(recipientId, recommendations){
         message: {"text": "這是這個商品的基本資訊，點看更多有更完整的介紹喔～"}
     };
 
-    callSendAPI(response_text);
-    callSendAPI(response);
+    callSendAPI(response_text, [response]);
 }
 
 /*
