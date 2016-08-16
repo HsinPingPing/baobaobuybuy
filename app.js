@@ -373,6 +373,7 @@ function ToCarousel(recipientId, recommendations, messageText){
         recipient: { id: recipientId},
         message: {"text": textset[num]}
     };
+    console.log("Carousel content 1 >>>", response1);
  
     var response2 = {
         recipient: { id: recipientId},
@@ -382,18 +383,9 @@ function ToCarousel(recipientId, recommendations, messageText){
                 template_type: "generic",
                 elements: []}
         }}};
-
-    
-    response2.message.attachment.payload.elements = recommendations;
     console.log("Carousel content 2 >>>", response2);
+    response2.message.attachment.payload.elements = recommendations;
     
-    
-    callSendAPI(response1);
-    callSendAPI(response2, 'Carousel', messageText);
-}
-
-function ToCarouselMore(recipientId, messageText){
-
     var response3 = {
         recipient: { id: recipientId},
         message: { attachment: {
@@ -405,7 +397,19 @@ function ToCarouselMore(recipientId, messageText){
                             }]}
         }}};
     console.log("Carousel content 3 >>>", response3);
-    callSendAPI(response3);
+
+    
+    
+    callSendAPI(response1, 'More', [response2, response3]);
+}
+
+function AddMore(recipientId, response){
+    
+    if (response.length > 1){
+        callSendAPI(response[0], response.slice(1));
+    }else if (response.length == 1){
+        callSendAPI(response[0]);
+    }
 }
 
 function ToKG(recipientId, recommendations){
@@ -453,11 +457,10 @@ function sendTextMessage(recipientId, messageText) {
  *
  */
 
-function callSendAPI(messageData, messagesType, messagesQuery) {
+function callSendAPI(messageData, moreResponse) {
     
-    if (typeof(messagesType) === 'undefined' || typeof(messagesQuery)==='undefined'){
-        messagesType = "";
-        messagesQuery = "";
+    if (typeof(moreResponse) === 'undefined'){
+        moreResponse = "";
     }
 
     request({
@@ -470,8 +473,8 @@ function callSendAPI(messageData, messagesType, messagesQuery) {
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
             console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
-            if (messagesType == 'Carousel' && messagesQuery != ''){
-               ToCarouselMore(body.recipient_id, messagesQuery); 
+            if (moreResponse != ''){
+               AddMore(recipientId, moreResponse);
             }
         } else {
             console.error("Unable to send message.");
