@@ -397,10 +397,8 @@ function ToCarousel(recipientId, recommendations, messageText){
                             }]}
         }}};
     console.log("Carousel content 3 >>>", response3);
-
     
-    
-    callSendAPI(response1, 'More', [response2, response3]);
+    callSendAPI(response1, [response2, response3]);
 }
 
 function AddMore(recipientId, response){
