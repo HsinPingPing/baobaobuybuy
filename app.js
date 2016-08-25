@@ -285,7 +285,7 @@ function baobao(recipientId, messageText, timeOfMessage) {
     var rmessage = recipientId + '_' + timeOfMessage + '_' + encodeURIComponent(messageText);
     console.log(rmessage);
     // var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
-    var flaskBackend = 'http://linux11.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
+    var flaskBackend = 'http://linux2.csie.ntu.edu.tw:5000/trigger/' + rmessage; 
     request.get(flaskBackend, function(error, response, body) {
         console.log("baobao body >>>>", body);
         if (typeof (body) == 'undefined' || body === null){
@@ -298,6 +298,8 @@ function baobao(recipientId, messageText, timeOfMessage) {
                 ToCarousel(recipientId, recommendations.data, encodeURIComponent(messageText));
             }else if (recommendations.type == 'kg'){
                 ToKG(recipientId, recommendations.data);
+            }else if (recommendations.type == 'recommendtype'){
+                ToRecType(recipientId, recommendations.data);
             }else if (recommendations.type == 'text'){
                 baobao_ask(recipientId, recommendations.data);
             }else{
@@ -429,6 +431,21 @@ function ToKG(recipientId, recommendations){
     };
 
     callSendAPI(response_text, [response]);
+}
+
+function ToRecType(recipientId, recommendations){
+    
+    var response = {
+        recipient :{ id: recipientId },
+        message: { attachment: {
+            type: "template",
+            payload: {
+                template_type: "generic",
+                elements: []}        
+        }}};
+    response.message.attachment.payload.elements = recommendations;
+    console.log("baobao recommend type >>>", response);
+    callSendAPI(response);
 }
 
 /*
